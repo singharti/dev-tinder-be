@@ -1,0 +1,19 @@
+{
+  "name": "devtinder-be",
+  "version": "1.0.0",
+  "description": "Tinder for Devs",
+  "main": "index.js",
+  "scripts": {
+    "start": "npx nodemon src/app.js",
+    "dev": "npx nodemon src/app.js"
+  },
+  "keywords": [
+    "nodejs",
+    "Javascript"
+  ],
+  "author": "Arti Singh",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
