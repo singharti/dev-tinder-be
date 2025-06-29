@@ -2,13 +2,24 @@ const express = require("express");
 
 const app = express();
 
-app.use("/", (req, res) =>{
+
+const { adminAuth , userAuth } = require("./middlewares/auth");
+
+app.use('/admin', adminAuth);
+
+
+
+//route handler
+app.get("/admin/getData", 
+    (req, res,next) =>{
     res.send("Hello from the serve!")
 });
-
-app.use("/hello", (req, res) =>{
-    res.send("Hello hello!")
+app.get("/user", userAuth ,
+    (req, res,next) =>{
+    // res.send("Hello from the reponse 1!")
+    next();
 });
+
 
 app.listen(3000, () => {
     console.log("serve");
