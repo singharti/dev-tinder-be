@@ -30,7 +30,7 @@ app.get("/getUserData",
         
     res.send("Hello from the reponse 1!")
 });
-
+//alwarys write in end
 app.use("/",(err, req, res, next) => {
     if(err){
         res.status(500).send("error");
