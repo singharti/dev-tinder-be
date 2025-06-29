@@ -1,4 +1,5 @@
 const express = require("express");
+const validator = re
 const connectDB = require ("./config/database");
 const app = express();
 const User =  require("./models/user");
