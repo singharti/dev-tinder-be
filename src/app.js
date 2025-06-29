@@ -1,25 +1,90 @@
 const express = require("express");
 const connectDB = require ("./config/database");
 const app = express();
-
 const User =  require("./models/user");
 
+    app.use(express.json());
+
     app.post("/signup", async (req,res) => {
-        const userObj ={
-            firstName : "Ankit",
-            lastName: "Singh",
-            emailId : "artisingh@gmail.com",
-            password: "xyz",
-            age: 25
-        }
+        const user  =  new User(req.body);
 
         //creating in intance
         try{
-            const user = new User(userObj);
+            // const user = new User(user);
             await user.save();
             res.send("User add sucessfully");
         }catch(err){
-            res.status(400).send("Error" + err.message);
+            res.status(400).send("Error " + err.message);
+        }
+        
+    });
+
+    app.get("/user", async (req,res) => {
+        const userEmail = req.body.emailId
+        try{
+            const user = await User.findOne({emailId : userEmail});
+            if(!user){
+                res.status(404).send("user not found");
+            }
+            // if(user.lenth === 0){
+            //     res.status(404).send("user not found");
+            // }
+            res.send(user);
+
+        }catch(err){
+            res.status(400).send("Error " + err.message);
+
+        }
+    });
+
+    app.get("/feed", async (req,res) => {
+        //creating in intance
+        try{
+             const users = await User.find({});
+                res.send(users);
+        }catch(err){
+            res.status(400).send("Error " + err.message);
+        }
+        
+    });
+
+     app.delete("/user", async (req,res) => {
+        //creating in intance
+        const userId = req.body.userId;
+        try{
+             const user = await User.findByIdAndDelete(userId);
+             if(!user){
+                res.status(404).send("user not found ");
+
+             }else{
+                res.send("User Delete sucessfully");
+
+             }
+        }catch(err){
+            res.status(400).send("Error " + err.message);
+        }
+        
+    });
+
+     app.patch("/user", async (req,res) => {
+        //creating in intance
+        const emailId = req.body.emailId;
+        console.log(emailId);
+        const data = req.body.data;
+        try{
+              const user = await User.findOneAndUpdate({ emailId : emailId } , data, {
+                returnDocument:'after'
+              } );
+            //  if(!user){
+            //     res.status(404).send("user not found ");
+
+            //  }else{
+            console.log(user);
+                res.send(" User Update sucessfully");
+
+            //  }
+        }catch(err){
+            res.status(400).send("Error " + err.message);
         }
         
     });
