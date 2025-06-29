@@ -7,6 +7,7 @@ const User =  require("./models/user");
 
     app.post("/signup", async (req,res) => {
         const user  =  new User(req.body);
+        console.log(user);
 
         //creating in intance
         try{
@@ -68,12 +69,13 @@ const User =  require("./models/user");
 
      app.patch("/user", async (req,res) => {
         //creating in intance
-        const emailId = req.body.emailId;
-        console.log(emailId);
-        const data = req.body.data;
+        const userId = req.body.userId;
+        console.log(userId);
+        const data = req.body;
         try{
-              const user = await User.findOneAndUpdate({ emailId : emailId } , data, {
-                returnDocument:'after'
+              const user = await User.findOneAndUpdate({ _id : userId } , data, {
+                returnDocument :'after',
+                runValidators : true
               } );
             //  if(!user){
             //     res.status(404).send("user not found ");
