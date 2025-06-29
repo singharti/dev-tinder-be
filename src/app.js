@@ -67,12 +67,26 @@ const User =  require("./models/user");
         
     });
 
-     app.patch("/user", async (req,res) => {
+     app.patch("/user/:userId", async (req,res) => {
         //creating in intance
-        const userId = req.body.userId;
-        console.log(userId);
+        const userId = req.params?.userId;
         const data = req.body;
+       
         try{
+             const ALLOWED_UPDATE = [
+            "photoUrl", "about", 'gender', "age","skills"
+            ];
+            const isUpdatedAllowed = Object.keys(data).every((k) => 
+                ALLOWED_UPDATE.includes(k)
+            );
+            if(!isUpdatedAllowed){
+                throw new Error("update not allow");
+                
+            }
+            if(data?.skills.length > 10){
+                throw new Error("Skills not nore than 10");
+                
+            }
               const user = await User.findOneAndUpdate({ _id : userId } , data, {
                 returnDocument :'after',
                 runValidators : true
