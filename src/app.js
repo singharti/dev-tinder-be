@@ -1,45 +1,36 @@
 const express = require("express");
-
+const connectDB = require ("./config/database");
 const app = express();
 
+const User =  require("./models/user");
 
-// const { adminAuth , userAuth } = require("./middlewares/auth");
+    app.post("/signup", async (req,res) => {
+        const userObj ={
+            firstName : "Ankit",
+            lastName: "Singh",
+            emailId : "artisingh@gmail.com",
+            password: "xyz",
+            age: 25
+        }
 
-// app.use('/admin', adminAuth);
-
-
-
-//route handler
-// app.get("/admin/getData", 
-//     (req, res,next) =>{
-//     res.send("Hello from the serve!")
-// });
-app.use("/",(err, req, res, next) => {
-    if(err){
-        res.status(500).send("error");
-    }
-})
-app.get("/getUserData",
-    (req, res,next) =>{
-        // try{
-        throw new Error("dfdsfsd");
-
-        // }catch(err){
-        //     res.status(500).send("contact team")
-        // }
+        //creating in intance
+        try{
+            const user = new User(userObj);
+            await user.save();
+            res.send("User add sucessfully");
+        }catch(err){
+            res.status(400).send("Error" + err.message);
+        }
         
-    res.send("Hello from the reponse 1!")
-});
-//alwarys write in end
-app.use("/",(err, req, res, next) => {
-    if(err){
-        res.status(500).send("error");
-    }
-})
+    });
 
-
-
-
-app.listen(3000, () => {
-    console.log("serve");
-});
+connectDB() 
+    .then(() => {
+        console.log("established");
+        app.listen(3000, () => {
+            console.log("serve");
+        });
+    })
+    .catch((err) => {
+        console.log("not connected");
+    });
