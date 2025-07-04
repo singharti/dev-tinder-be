@@ -36,6 +36,29 @@ const User =  require("./models/user");
         
     });
 
+    app.post("/login", async (req, res) => {
+
+        try{
+            const {emailId, password} = req.body;
+            const user = await User.findOne({ emailId : emailId });
+
+            if(!user){
+                throw new Error("InValid credentials");
+                
+            }
+            const isPsswordValid = await bcrypt.compare(password, user.password)
+
+            if(isPsswordValid){
+                res.send("Login Successfully");
+            }else{
+                throw new Error("InValid credentials");
+                
+            }
+        }catch(err){
+            res.status(400).send("Error : " + err.message);
+        }
+    });
+
     app.get("/user", async (req,res) => {
         const userEmail = req.body.emailId
         try{
