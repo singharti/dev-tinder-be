@@ -6,7 +6,6 @@ const User =  require("../models/user");
 const bcrypt = require("bcrypt");
 
 authRouter.post("/signup", async (req,res) => {
-    console.log("here");
     
     try{
             //validation of data
@@ -45,7 +44,6 @@ authRouter.post("/login", async (req, res) => {
         const isPsswordValid = await user.validatePassword(password)
 
         if(isPsswordValid){
-            console.log("heree");
             const token = await user.getJWT();
 
             res.cookie("token",token,  { 

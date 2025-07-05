@@ -7,6 +7,7 @@ const userSchema = new mongoose.Schema({
     firstName: {
         type : String,
         require : true,
+        index : true,
         minLength : 4,
         maxLength : 50,
         
@@ -37,12 +38,16 @@ const userSchema = new mongoose.Schema({
     },
     gender: {
         type : String,
-        validate(value){
-            if(!['male','female','other'].includes(value)){
-                throw new Error("Gender data is not valid");
-                
-            }
+        enum: {
+            values: ["male", "female" , "other"],
+            message: `{VALUE} is not a valid gender type`
         }
+        // validate(value){
+        //     if(!['male','female','other'].includes(value)){
+        //         throw new Error("Gender data is not valid");
+                
+        //     }
+        // }
     },
     photoUrl:{
         type : String,
@@ -64,6 +69,8 @@ const userSchema = new mongoose.Schema({
     }
 
 },{timestamps : true, versionKey: false });
+
+
 
 userSchema.methods.getJWT = async function () {
     const user = this;
