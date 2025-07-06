@@ -52,12 +52,12 @@ const userSchema = new mongoose.Schema({
     photoUrl:{
         type : String,
         default: "https://wallpapers.com/images/hd/netflix-profile-pictures-1000-x-1000-qo9h82134t9nv0j0.jpg",
-         validate(value){
-            if(!validator.isUrl(value)){
-                throw new Error("Invalide Photo ");
-                
-            }
-        }
+            //  validate(value){
+            //     if(!validator.isUrl(value)){
+            //         throw new Error("Invalide Photo ");
+                    
+            //     }
+            // }
     },
     about:{
         type : String,
